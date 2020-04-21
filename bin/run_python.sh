@@ -31,6 +31,7 @@ if [[ $1 = "jupyter_extensions" ]]; then
  	jupyter nbextension enable spellchecker/main
  	jupyter nbextension enable toc2/main
  	jupyter nbextension enable toggle_all_line_numbers/main
+	nbdime extensions --enable
 	echo ">>> Done!"
 fi
 
