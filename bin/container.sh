@@ -8,7 +8,6 @@
 display_help() {
     echo "Usage: [variable=value] $0" >&2
     echo
-    echo "   -d, --deploy               deploy container"
     echo "   -h, --help                 display help"
     echo "   -j, --jupyter_notebook     launch container with jupyter notebook"
     echo
@@ -33,7 +32,7 @@ jupyter() {
         docker rm ${EXITED_ID}
 
     else
-        CONTAINER_ID=$(docker ps -aqf "name=blog" | awk '{ print $1}')
+        CONTAINER_ID=$(docker ps -aqf "name=${PROJECT_NAME}" | awk '{ print $1}')
 
     fi
 
@@ -41,7 +40,7 @@ jupyter() {
     if [[ -z "${CONTAINER_ID}" ]]; then
       echo "Creating Container from image ${DOCKER_IMAGE_TAG} ..."
       docker run --name ${PROJECT_NAME} -d -P -v $(pwd):/home/${DOCKER_USER}/work -t ${DOCKER_IMAGE_TAG} $1 >/dev/null >&1
-      CONTAINER_ID=$(docker ps -aqf "name=blog" | awk '{ print $1}')
+      CONTAINER_ID=$(docker ps -aqf "name=${PROJECT_NAME}" | awk '{ print $1}')
 
       echo "Installing requirements"
      
@@ -66,7 +65,7 @@ jupyter() {
     JUPYTER_TOKEN=$(docker exec -u ${DOCKER_USER} -i ${CONTAINER_ID} sh -c "jupyter notebook list" | tac | grep -o "token=[a-z0-9]*" | sed -n 1p | cut -d "=" -f 2)
     echo -e "Jupyter token: ${GREEN}${JUPYTER_TOKEN}${NC}"
 
-    JUPYTER_ADDRESS=$(docker ps | grep ${DOCKER_IMAGE_TAG} | grep -o "0.0.0.0:[0-9]*")
+    JUPYTER_ADDRESS=$(docker ps -af "name=${PROJECT_NAME}" | grep -o "0.0.0.0:[0-9]*")
     echo -e "Jupyter Address: ${BLUE}http://${JUPYTER_ADDRESS}/?token=${JUPYTER_TOKEN}${NC}"
 
 }
@@ -84,23 +83,6 @@ get_container_id() {
         echo "Container id: ${bold}${CONTAINER_ID}${normal}"
 
     fi
-}
-
-# Get container id
-deploy_container() {
-    make_variables
-
-    echo "Pushing image ${DOCKER_IMAGE_TAG}"
-    docker push ${DOCKER_IMAGE_TAG}
-}
-
-registry_login() {
-    # Todo: Not working. Need to fix this!
-    make_variables
-    GITHUB_PAT=$(cat .env | grep GITHUB_PAT | awk -F'=' '{print $2}') 
-    echo ${DOCKER_REGISTRY}
-    echo ${REGISTRY_USER}
-    $(echo ${GITHUB_PAT} | docker login ${DOCKER_REGISTRY} -u ${REGISTRY_USER} --password-stdin)
 }
 
 make_variables() {
@@ -129,24 +111,6 @@ make_variables() {
     normal=$(tput sgr0)
 }
 
-run_container() {
-
-    make_variables
-    get_container_id
-
-    if [[ -z "${CONTAINER_ID}" ]]; then
-        echo "Creating Container from image ${DOCKER_IMAGE_TAG} ..."
-
-        docker run --rm --env-file .env -e DOCKER_USER=$USER -e uid=$UID -d -P -v $(pwd):/home/${PROJECT_NAME} -t ${DOCKER_IMAGE_TAG} $1 >/dev/null >&1
-
-        echo "Done"
-
-    else
-	    echo "Container already running"
-	fi
-
-}
-
 # Available options
 while :
 do
@@ -158,16 +122,6 @@ do
 
       -j | --jupyter_notebook)
           jupyter  # Call your function
-          break
-          ;;
-
-      -d | --deploy)
-          deploy_container  # Call your function
-          break
-          ;;
-
-      -r | --run)
-          run_container  # Call your function
           break
           ;;
 
