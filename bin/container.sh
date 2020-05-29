@@ -19,7 +19,7 @@ display_help() {
 get_container_id() {
     echo "Getting container id for image ${DOCKER_IMAGE_TAG} ..."
 
-    CONTAINER_ID=$(docker ps | grep "${DOCKER_IMAGE_TAG}" | awk '{ print $1}')
+    CONTAINER_ID=$(docker ps -aqf "name=${PROJECT_NAME}")
 
     if [[ -z "${CONTAINER_ID}" ]]; then
         echo "No container id found"
@@ -42,9 +42,8 @@ make_variables() {
     PROJECT_NAME=$(basename ${PROJECT_ROOT})
 
     REGISTRY_USER=hsteinshiromoto
-    DOCKER_REGISTRY=docker.pkg.github.com
-    DOCKER_IMAGE_NAME=${PROJECT_NAME}
-    DOCKER_IMAGE=${DOCKER_REGISTRY}/${REGISTRY_USER}/${PROJECT_NAME}/${DOCKER_IMAGE_NAME}
+    DOCKER_IMAGE_NAME=datascience
+    DOCKER_IMAGE=${REGISTRY_USER}/${DOCKER_IMAGE_NAME}
     DOCKER_TAG=${DOCKER_TAG:-latest}
     DOCKER_IMAGE_TAG=${DOCKER_IMAGE}:${DOCKER_TAG}
 
@@ -56,6 +55,38 @@ make_variables() {
     normal=$(tput sgr0)
 }
 
+
+run_container() {
+
+    make_variables
+    get_container_id
+
+    if [[ -z "${CONTAINER_ID}" ]]; then
+        echo "Creating Container from image ${DOCKER_IMAGE_TAG} ..."
+
+        docker run --rm -d -P -v $(pwd):/home/jovyan/work --name ${PROJECT_NAME} -t ${DOCKER_IMAGE_TAG} $1 >/dev/null >&1
+
+        sleep 2
+        get_container_id
+
+    else
+	    echo "Container already running"
+	fi
+
+    sleep 5
+
+    JUPYTER_PORT=$(docker ps -f "name=${PROJECT_NAME}" | grep -o "0.0.0.0:[0-9]*->8888" | cut -d ":" -f 2 | head -n 1)
+
+    echo -e "Port mapping: ${JUPYTER_PORT}"
+
+    JUPYTER_TOKEN=$(docker exec -i ${CONTAINER_ID} sh -c "jupyter notebook list" | tac | grep -o "token=[a-z0-9]*" | sed -n 1p | cut -d "=" -f 2)
+    echo -e "Jupyter token: ${GREEN}${JUPYTER_TOKEN}${NC}"
+
+    JUPYTER_ADDRESS=$(docker ps | grep ${DOCKER_IMAGE_TAG} | grep -o "0.0.0.0:[0-9]*")
+    echo -e "Jupyter Address: ${BLUE}http://${JUPYTER_ADDRESS}/?token=${JUPYTER_TOKEN}${NC}"
+}
+
+
 # Available options
 while :
 do
@@ -65,8 +96,8 @@ do
           exit 0
           ;;
 
-      -s | --ssh)
-          run_ssh_container  # Call your function
+      -r | --run)
+          run_container  # Call your function
           break
           ;;
 
