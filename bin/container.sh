@@ -9,7 +9,7 @@ display_help() {
     echo "Usage: [variable=value] $0" >&2
     echo
     echo "   -h, --help                 display help"
-    echo "   -j, --jupyter_notebook     launch container with jupyter notebook"
+    echo "   -r, --run_container        run container with jupyter notebook"
     echo
     # echo some stuff here for the -a or --add-options
     exit 1
