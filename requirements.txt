@@ -12,6 +12,7 @@ arviz
 pymc3
 altair
 seaborn
+theano
 
 # Jupyter settings
 jupyter
