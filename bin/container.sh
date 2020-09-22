@@ -38,7 +38,7 @@ make_variables() {
     source .env
     set +a
 
-    PROJECT_ROOT=$(pwd)
+    PROJECT_ROOT=$(git rev-parse --show-toplevel)
     PROJECT_NAME=$(basename ${PROJECT_ROOT})
 
     REGISTRY_USER=hsteinshiromoto
@@ -64,7 +64,7 @@ run_container() {
     if [[ -z "${CONTAINER_ID}" ]]; then
         echo "Creating Container from image ${DOCKER_IMAGE_TAG} ..."
 
-        docker run --rm -d -P -v $(pwd):/home/jovyan/work --name ${PROJECT_NAME} -t ${DOCKER_IMAGE_TAG} $1 >/dev/null >&1
+        docker run --rm -d -P -v ${PROJECT_ROOT}:/home/jovyan/work --name ${PROJECT_NAME} -t ${DOCKER_IMAGE_TAG} $1 >/dev/null >&1
 
         sleep 2
         get_container_id
