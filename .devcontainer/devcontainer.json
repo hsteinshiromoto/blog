@@ -36,7 +36,7 @@
 		"cssho.vscode-svgviewer",
 		"hbenl.vscode-test-explorer",
 		"redhat.vscode-yaml"
-	]
+	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [8888],
