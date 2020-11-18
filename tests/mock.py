@@ -2,7 +2,18 @@ import pandas as pd
 import numpy as np
 from pprint import pprint
 
-def make_dataset(nrows: float=100, specs: dict=None, missing: bool=False):
+def make_dataset(nrows: float=100, specs: dict=None, missing: bool=False) -> pd.DataFrame:
+    """
+    Create mock pandas dataframe
+
+    Args:
+        nrows (float, optional): number of rows. Defaults to 100.
+        specs (dict, optional): Specifications of the data frame. Defaults to None.
+        missing (bool, optional): Add missing values. Defaults to False.
+
+    Returns:
+        pd.DataFrame: mock pandas dataframe
+    """
 
     if nrows <= 4:
         nrows = 5
