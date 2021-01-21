@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="729"
+   height="46"
+   version="1.1"
+   id="svg12"
+   sodipodi:docname="Cantor_set_in_three_iterations.svg"
+   inkscape:version="1.0.1 (c497b03c, 2020-09-10)"
+   inkscape:export-filename="/Users/humberto/Projects/hsteinshiromoto.github.io/_posts/2999-12-12-img_a_digression_on_the_cantor_set_three_iterations.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+  <metadata
+     id="metadata18">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs16" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1027"
+     id="namedview14"
+     showgrid="false"
+     inkscape:zoom="2.2400065"
+     inkscape:cx="277.85407"
+     inkscape:cy="73.354354"
+     inkscape:window-x="3600"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg12"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <path
+     stroke="#000000"
+     stroke-width="10"
+     d="M 0,5 H 729 M 0,23 h 243 m 243,0 H 729 M 0,41 h 81 m 81,0 h 81 m 243,0 h 81 m 81,0 h 81"
+     id="path10"
+     sodipodi:nodetypes="cccccccccccccc" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;fill:#ffffff;fill-opacity:1;stroke:none"
+     x="316.51694"
+     y="8.928545"
+     id="text49"><tspan
+       sodipodi:role="line"
+       id="tspan47"
+       x="316.51694"
+       y="8.928545"
+       style="font-size:10.6667px;fill:#ffffff">what we know</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;fill:#ffffff;fill-opacity:1;stroke:none"
+     x="83.035477"
+     y="26.785635"
+     id="text53"><tspan
+       sodipodi:role="line"
+       id="tspan51"
+       x="83.035477"
+       y="26.785635"
+       style="font-size:10.6667px;fill:#ffffff">what we know</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;fill:#ffffff;fill-opacity:1;stroke:none"
+     x="2.232141"
+     y="44.642727"
+     id="text57"><tspan
+       sodipodi:role="line"
+       id="tspan55"
+       x="2.232141"
+       y="44.642727"
+       style="font-size:10.6667px;fill:#ffffff">what we know</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;fill:#ffffff;fill-opacity:1;stroke:none"
+     x="163.83881"
+     y="44.642727"
+     id="text61"><tspan
+       sodipodi:role="line"
+       id="tspan59"
+       x="163.83881"
+       y="44.642727"
+       style="font-size:10.6667px;fill:#ffffff">what we know</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;fill:#ffffff;fill-opacity:1;stroke:none"
+     x="569.19476"
+     y="26.785637"
+     id="text65"><tspan
+       sodipodi:role="line"
+       id="tspan63"
+       x="569.19476"
+       y="26.785637"
+       style="font-size:10.6667px;fill:#ffffff">what we know</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;fill:#ffffff;fill-opacity:1;stroke:none"
+     x="487.94501"
+     y="44.642727"
+     id="text69"><tspan
+       sodipodi:role="line"
+       id="tspan67"
+       x="487.94501"
+       y="44.642727"
+       style="font-size:10.6667px;fill:#ffffff">what we know</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;fill:#ffffff;fill-opacity:1;stroke:none"
+     x="649.10522"
+     y="44.642727"
+     id="text73"><tspan
+       sodipodi:role="line"
+       id="tspan71"
+       x="649.10522"
+       y="44.642727"
+       style="font-size:10.6667px;fill:#ffffff">what we know</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none"
+     x="294.642"
+     y="27.232063"
+     id="text77"><tspan
+       sodipodi:role="line"
+       id="tspan75"
+       x="294.642"
+       y="27.232063"
+       style="font-size:10.6667px;fill:#000000">what we do not know</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none"
+     x="294.19556"
+     y="44.196301"
+     id="text81"><tspan
+       sodipodi:role="line"
+       id="tspan79"
+       x="294.19556"
+       y="44.196301"
+       style="font-size:10.6667px;fill:#000000">what we do not know</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none"
+     x="89.285446"
+     y="44.642727"
+     id="text85"><tspan
+       sodipodi:role="line"
+       id="tspan83"
+       x="89.285446"
+       y="44.642727"
+       style="font-size:10.6667px;fill:#000000">do not know</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none"
+     x="574.99829"
+     y="44.642727"
+     id="text89"><tspan
+       sodipodi:role="line"
+       id="tspan87"
+       x="574.99829"
+       y="44.642727"
+       style="font-size:10.6667px;fill:#000000">do not know</tspan></text>
+</svg>
