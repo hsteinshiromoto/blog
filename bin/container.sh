@@ -9,7 +9,7 @@ display_help() {
     echo "Usage: [variable=value] $0" >&2
     echo
     echo "   -h, --help                 display help"
-    echo "   -r, --run_container        run container with jupyter notebook"
+    echo "   -r, --run_container        launch container"
     echo
     # echo some stuff here for the -a or --add-options
     exit 1
@@ -30,6 +30,7 @@ get_container_id() {
     fi
 }
 
+
 make_variables() {
     # Get Variables From make_variables.sh
     # IFS='|| ' read -r -a array <<< $(./make_variables.sh)
@@ -38,12 +39,11 @@ make_variables() {
     source .env
     set +a
 
-    PROJECT_ROOT=$(git rev-parse --show-toplevel)
+    PROJECT_ROOT=PROJECT_ROOT=$(git rev-parse --show-toplevel)
     PROJECT_NAME=$(basename ${PROJECT_ROOT})
+    DOCKER_USER=docker_user
 
-    REGISTRY_USER=hsteinshiromoto
-    DOCKER_IMAGE_NAME=datascience
-    DOCKER_IMAGE=${REGISTRY_USER}/${DOCKER_IMAGE_NAME}
+    DOCKER_IMAGE=docker.pkg.github.com/hsteinshiromoto/docker.datascience/datascience
     DOCKER_TAG=${DOCKER_TAG:-latest}
     DOCKER_IMAGE_TAG=${DOCKER_IMAGE}:${DOCKER_TAG}
 
@@ -55,7 +55,6 @@ make_variables() {
     normal=$(tput sgr0)
 }
 
-
 run_container() {
 
     make_variables
@@ -64,66 +63,62 @@ run_container() {
     if [[ -z "${CONTAINER_ID}" ]]; then
         echo "Creating Container from image ${DOCKER_IMAGE_TAG} ..."
 
-        docker run --rm -d -P -v ${PROJECT_ROOT}:/home/jovyan/work --name ${PROJECT_NAME} -t ${DOCKER_IMAGE_TAG} $1 >/dev/null >&1
+        docker run -d -P -v $(pwd):/home/docker_user -e uid=$UID --name ${PROJECT_NAME} -t ${DOCKER_IMAGE_TAG} $1 >/dev/null >&1
 
         sleep 2
         get_container_id
 
     else
-	    echo "Container already running"
+        echo "Container already running"
 	fi
 
     sleep 5
 
-    JUPYTER_PORT=$(docker ps -f "name=${PROJECT_NAME}" | grep -o "0.0.0.0:[0-9]*->8888" | cut -d ":" -f 2 | head -n 1)
+    JUPYTER_PORT=$(docker ps -f "ancestor=${DOCKER_IMAGE_TAG}" | grep -o "0.0.0.0:[0-9]*->8888" | cut -d ":" -f 2 | head -n 1)
 
     echo -e "Port mapping: ${JUPYTER_PORT}"
 
-    JUPYTER_TOKEN=$(docker exec -i ${CONTAINER_ID} sh -c "jupyter notebook list" | tac | grep -o "token=[a-z0-9]*" | sed -n 1p | cut -d "=" -f 2)
+    JUPYTER_TOKEN=$(docker exec -u ${DOCKER_USER} -i ${CONTAINER_ID} sh -c "jupyter lab list" | tac | grep -o "token=[a-z0-9]*" | sed -n 1p | cut -d "=" -f 2)
     echo -e "Jupyter token: ${GREEN}${JUPYTER_TOKEN}${NC}"
 
     JUPYTER_ADDRESS=$(docker ps | grep ${DOCKER_IMAGE_TAG} | grep -o "0.0.0.0:[0-9]*")
     echo -e "Jupyter Address: ${BLUE}http://${JUPYTER_ADDRESS}/?token=${JUPYTER_TOKEN}${NC}"
 }
 
-
 # Available options
 while :
 do
     case "$1" in
-      -h | --help)
-          display_help  # Call your function
-          exit 0
-          ;;
+        -h | --help)
+            display_help  # Call your function
+            exit 0
+            ;;
 
-      -r | --run)
-          run_container  # Call your function
-          break
-          ;;
+        -r | --run) 
+            run_container  # Call your function
+            break
+            ;;
 
-      "")
-          display_help  # Call your function
-          break
-          ;;
+        "")
+            display_help  # Call your function
+            break
+            ;;
 
-      --) # End of all options
-          shift
-          break
-          ;;
-      -*)
-          echo "Error: Unknown option: $1" >&2
-          ## or call function display_help
-          exit 1
-          ;;
+        --) # End of all options
+            shift
+            break
+            ;;
+        -*)
+            echo "Error: Unknown option: $1" >&2
+            ## or call function display_help
+            exit 1
+            ;;
+
       *)  # No more options
-          break
-          ;;
+            break
+            ;;
     esac
 done
-
-
-#port2=$(docker ps -f "ancestor=${docker_image}" | grep -o "0.0.0.0:[0-9]*->[0-9]*" | cut -d ":" -f 2 | sed -n 2p)
-
 
 
 
