@@ -1,6 +1,0 @@
-
-# Misc.
-git
-gosu
-openssh-server
-wget
