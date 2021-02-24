@@ -4,6 +4,9 @@
 
 ## Folder ##
 
+.local/*
+.jupyter/*
+
 ## Files ##
 
 *.csv
