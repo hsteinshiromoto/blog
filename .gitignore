@@ -2,6 +2,13 @@
 # Created by https://www.gitignore.io/api/linux,macos,latex,python,pycharm,windows,sublimetext,jupyternotebooks,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=linux,macos,latex,python,pycharm,windows,sublimetext,jupyternotebooks,visualstudiocode
 
+## Folder ##
+
+## Files ##
+
+*.csv
+*.png
+
 ### JupyterNotebooks ###
 # gitignore template for Jupyter Notebooks
 # website: http://jupyter.org/
