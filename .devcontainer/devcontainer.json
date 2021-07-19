@@ -1,5 +1,5 @@
 {
-	"image": "docker.pkg.github.com/hsteinshiromoto/docker.datascience/datascience:latest",
+	"image": "hsteinshiromoto/docker.datascience:latest",
 
 	// Sets the run context to one level up instead of the .devcontainer folder.
 	"context": "..",
@@ -42,7 +42,7 @@
 	"forwardPorts": [8888],
 
 	// Uncomment the next line to run commands after the container is created - for example installing curl.
-	// "postCreateCommand": "apt-get update && apt-get install -y curl",
+	"postCreateCommand": "cd /usr/local/ && sudo chmod 777 /usr/local/poetry.lock && sudo chmod 777 /usr/local/pyproject.toml && poetry add xkcd",
 
 	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
 	// "runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" ],
