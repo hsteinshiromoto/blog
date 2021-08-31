@@ -35,7 +35,8 @@
 		"sourcery.sourcery",
 		"cssho.vscode-svgviewer",
 		"hbenl.vscode-test-explorer",
-		"redhat.vscode-yaml"
+		"redhat.vscode-yaml",
+		"github.copilot"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
