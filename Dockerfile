@@ -57,11 +57,15 @@ COPY bin/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY bin/setup_python.sh /usr/local/bin/setup_python.sh
 COPY bin/test_environment.py /usr/local/bin/test_environment.py
 COPY bin/setup.py /usr/local/bin/setup.py
+COPY pyproject.toml /usr/local/pyproject.toml
+COPY poetry.lock /usr/local/poetry.lock
 
 RUN chmod +x /usr/local/bin/setup_python.sh && \
     chmod +x /usr/local/bin/entrypoint.sh && \
 	chmod +x /usr/local/bin/test_environment.py && \
-	chmod +x /usr/local/bin/setup.py
+	chmod +x /usr/local/bin/setup.py && \
+    chmod 777 /usr/local/pyproject.toml && \
+    chmod 777 /usr/local/poetry.lock
 
 RUN bash /usr/local/bin/setup_python.sh test_environment && \
 	bash /usr/local/bin/setup_python.sh requirements
@@ -69,9 +73,6 @@ RUN bash /usr/local/bin/setup_python.sh test_environment && \
 # Create the "home" folder
 RUN mkdir -p /home/$USERNAME
 WORKDIR /home/$USERNAME
-
-COPY pyproject.toml $HOME/pyproject.toml
-# COPY poetry.lock $HOME/poetry.lock
 
 # N.B.: Keep the order 1. entrypoint, 2. cmd
 USER $USERNAME
