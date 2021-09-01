@@ -15,7 +15,9 @@ endif
 # Global Variables
 # ---
 PROJECT_PATH := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-PROJECT_NAME = $(shell basename ${PROJECT_PATH})
+
+GIT_REMOTE=$(shell basename $(shell git remote get-url origin))
+PROJECT_NAME=$(shell echo $(GIT_REMOTE:.git=))
 
 DOCKER_IMAGE_NAME = hsteinshiromoto/${PROJECT_NAME}
 
