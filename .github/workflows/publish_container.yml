@@ -34,7 +34,7 @@ jobs:
 
       - name: Push image to Github Registry
         run: |
-          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
+          IMAGE_ID=ghcr.io/${{ github.repository }}/$IMAGE_NAME
 
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
@@ -50,8 +50,7 @@ jobs:
 
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
-
-          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker tag ${{ github.actor }}/$IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
 
       - name: Login to Dockerhub
