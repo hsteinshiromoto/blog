@@ -83,7 +83,7 @@ ENV PATH="${PATH}:$HOME/.poetry/bin"
 ENV PATH="${PATH}:$HOME/.local/bin"
 
 RUN poetry config virtualenvs.create false \
-    && cd $HOME \
+    && cd /usr/local/ \
     && poetry install --no-interaction --no-ansi
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
