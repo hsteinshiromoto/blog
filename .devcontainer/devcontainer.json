@@ -36,7 +36,13 @@
 		"cssho.vscode-svgviewer",
 		"hbenl.vscode-test-explorer",
 		"redhat.vscode-yaml",
-		"github.copilot"
+		"github.copilot",
+		"ms-python.python",
+		"littlefoxteam.vscode-python-test-adapter",
+		"njpwerner.autodocstring",
+		"mgesbert.python-path",
+		"njqdev.vscode-python-typehint",
+		"ms-python.vscode-pylance",
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
@@ -52,5 +58,5 @@
 	// "mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],
 
 	// Uncomment to connect as a non-root user if you've added one. See https://aka.ms/vscode-remote/containers/non-root.
-	// "remoteUser": "docker_user"
+	"remoteUser": "vscode"
 }
