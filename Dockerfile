@@ -57,7 +57,7 @@ COPY bin/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY bin/setup_python.sh /usr/local/bin/setup_python.sh
 COPY bin/test_environment.py /usr/local/bin/test_environment.py
 COPY bin/setup.py /usr/local/bin/setup.py
-COPY poetry.lock /usr/local/poetry.lock
+# COPY poetry.lock /usr/local/poetry.lock
 COPY pyproject.toml /usr/local/pyproject.toml
 
 RUN chmod +x /usr/local/bin/setup_python.sh && \
