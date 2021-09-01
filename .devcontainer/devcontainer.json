@@ -49,7 +49,7 @@
 	"forwardPorts": [8888],
 
 	// Uncomment the next line to run commands after the container is created - for example installing curl.
-	"postCreateCommand": "cd /usr/local/ && sudo chmod 777 /usr/local/poetry.lock && sudo chmod 777 /usr/local/pyproject.toml && poetry add xkcd",
+	// "postCreateCommand": "cd /usr/local/ && sudo chmod 777 /usr/local/poetry.lock && sudo chmod 777 /usr/local/pyproject.toml && poetry add xkcd",
 
 	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
 	// "runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" ],
