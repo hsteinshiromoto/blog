@@ -6,11 +6,11 @@ FROM $DOCKER_PARENT_IMAGE
 
 # NB: Arguments should come after FROM otherwise they're deleted
 ARG BUILD_DATE
-ARG PROJECT_NAME
 
 # Silence debconf
 ARG DEBIAN_FRONTEND=noninteractive
 
+# Add vscode user to the container
 ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
@@ -19,8 +19,6 @@ ARG USER_GID=$USER_UID
 # ---
 ENV LANG=C.UTF-8 \
     LC_ALL=C.UTF-8
-ENV PROJECT_ROOT /home/$PROJECT_NAME
-ENV PYTHONPATH $PROJECT_ROOT
 ENV TZ Australia/Sydney
 ENV JUPYTER_ENABLE_LAB=yes
 ENV SHELL /bin/bash
@@ -30,7 +28,7 @@ ENV HOME /home/$USERNAME
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 LABEL org.label-schema.build-date=$BUILD_DATE \
-      maintainer="Dr Humberto STEIN SHIROMOTO <h.stein.shiromoto@gmail.com>"
+        maintainer="Humberto STEIN SHIROMOTO <h.stein.shiromoto@gmail.com>"
 
 # ---
 # Set up the necessary Debian packages
@@ -55,40 +53,38 @@ RUN groupadd --gid $USER_GID $USERNAME \
 # ---
 # Copy Container Setup Scripts
 # ---
-
 COPY bin/entrypoint.sh /usr/local/bin/entrypoint.sh
-COPY bin/run_python.sh /usr/local/bin/run_python.sh
+COPY bin/setup_python.sh /usr/local/bin/setup_python.sh
 COPY bin/test_environment.py /usr/local/bin/test_environment.py
 COPY bin/setup.py /usr/local/bin/setup.py
-# COPY requirements.txt /usr/local/requirements.txt
+COPY poetry.lock /usr/local/poetry.lock
+COPY pyproject.toml /usr/local/pyproject.toml
 
-RUN chmod +x /usr/local/bin/entrypoint.sh && \
-    # chmod +x /usr/local/bin/run_python.sh && \
+RUN chmod +x /usr/local/bin/setup_python.sh && \
+    chmod +x /usr/local/bin/entrypoint.sh && \
 	chmod +x /usr/local/bin/test_environment.py && \
 	chmod +x /usr/local/bin/setup.py
 
-# RUN bash /usr/local/bin/run_python.sh test_environment && \
-# 	bash /usr/local/bin/run_python.sh requirements
+RUN bash /usr/local/bin/setup_python.sh test_environment && \
+	bash /usr/local/bin/setup_python.sh requirements
 
 # Create the "home" folder
 RUN mkdir -p /home/$USERNAME
 WORKDIR /home/$USERNAME
 
+# N.B.: Keep the order 1. entrypoint, 2. cmd
 USER $USERNAME
 
 # Get poetry
 RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
 ENV PATH="${PATH}:$HOME/.poetry/bin"
+ENV PATH="${PATH}:$HOME/.local/bin"
 
 RUN poetry config virtualenvs.create false \
     && cd /usr/local \
     && poetry install --no-interaction --no-ansi
-# ---
-# Setup running and entrypoint
-# ---
-#Expose Jupyter port
-EXPOSE 8888 
-# CMD ["jupyter", "lab", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root"]
 
-EXPOSE 22
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
+EXPOSE 8888
+CMD ["jupyter", "lab", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root"]

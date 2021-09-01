@@ -1,26 +1,10 @@
 # ---
-# Export environ variables defined in .env file:
-# ---
-
-include .env
-export $(shell sed 's/=.*//' .env)
-
-# Check if variable is set in .env
-ifndef REGISTRY_USER
-$(error REGISTRY_USER is not set)
-endif
-
-# ---
 # Arguments
 # ---
 
 # Files to be copied in build phase of the container
 ifndef DOCKER_TAG
 DOCKER_TAG=latest
-endif
-
-ifndef DOCKER_REGISTRY
-DOCKER_REGISTRY=docker.pkg.github.com
 endif
 
 ifndef DOCKER_PARENT_IMAGE
@@ -30,50 +14,37 @@ endif
 # ---
 # Global Variables
 # ---
-
 PROJECT_PATH := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-GIT_REMOTE=$(shell basename $(shell git remote get-url origin))
-PROJECT_NAME=$(shell echo $(GIT_REMOTE:.git=))
+PROJECT_NAME = $(shell basename ${PROJECT_PATH})
 
-ifndef DOCKER_IMAGE
-DOCKER_IMAGE=hsteinshiromoto/${PROJECT_NAME}
-endif
+DOCKER_IMAGE_NAME = hsteinshiromoto/${PROJECT_NAME}
 
 BUILD_DATE = $(shell date +%Y%m%d-%H:%M:%S)
-
-BUCKET = ${PROJECT_NAME}
-PROFILE = default
 
 # ---
 # Commands
 # ---
+## Test
+test:
+	$(eval DOCKER_IMAGE_TAG=${DOCKER_IMAGE_NAME}:${DOCKER_TAG})
+
+	@echo "DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG}"
 
 ## Build container locally
 build:
-	$(eval DOCKER_IMAGE_TAG=${DOCKER_IMAGE}:${DOCKER_TAG})
+	$(eval DOCKER_IMAGE_TAG=${DOCKER_IMAGE_NAME}:${DOCKER_TAG})
 
 	@echo "Building docker image ${DOCKER_IMAGE_TAG}"
-	docker build --build-arg BUILD_DATE=${BUILD_DATE} \
-				--build-arg DOCKER_PARENT_IMAGE=${DOCKER_PARENT_IMAGE} \
-		   		-t ${DOCKER_IMAGE_TAG} .
+	docker build --build-arg BUILD_DATE=${BUILD_DATE} -t ${DOCKER_IMAGE_TAG} .
+	@echo "Done"
 
-get_toc_script:
-	mkdir -p bin
-	wget https://raw.githubusercontent.com/ekalinin/github-markdown-toc/master/gh-md-toc
-	chmod a+x gh-md-toc
-	mv gh-md-toc bin/
+## Build container to docker hub
+push:
+	$(eval DOCKER_IMAGE_TAG=${DOCKER_IMAGE_NAME}:${DOCKER_TAG})
 
-.PHONY: README.md
-## Generate TOC Automatically for README.md
-readme: get_toc_script
-	./bin/gh-md-toc --insert README.md
-	rm -f README.md.orig.* README.md.toc.*
-
-#################################################################################
-# PROJECT RULES                                                                 #
-#################################################################################
-
-
+	@echo "Pushing docker image ${DOCKER_IMAGE_TAG} to docker hub"
+	docker push ${DOCKER_IMAGE_TAG}
+	@echo "Done"
 
 #################################################################################
 # Self Documenting Commands                                                     #

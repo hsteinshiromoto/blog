@@ -1,17 +1,21 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+# References
+# [1] https://www.cyberciti.biz/faq/linux-change-user-group-uid-gid-for-all-owned-files/
+# [2] https://www.thegeekdiary.com/how-to-correctly-change-the-uid-and-gid-of-a-user-group-in-linux/
+# [3] https://askubuntu.com/questions/16700/how-can-i-change-my-own-user-id
+# [4] https://askubuntu.com/questions/617850/changing-from-user-to-superuser
+
 set -e
 
 # If "-e uid={custom/local user id}" flag is not set for "docker run" command, use 9999 as default
 CURRENT_UID=${uid:-9999}
+CURRENT_GID=${gid:-9999}
 
-# If "-e docker_user={custom/local user id}" flag is not set for "docker run" command, use docker_user as default
-CONTAINER_USERNAME=${DOCKER_USER:-"docker_user"}
+# Modify user "vscode" with selected UID and GID
+su - # [4]
+usermod -u $CURRENT_UID vscode
+groupmod -g $CURRENT_GID vscode
 
-# Create user called "docker" with selected UID
-useradd --shell /bin/bash -p $(openssl passwd -1 $CONTAINER_PASSWORD) -u $CURRENT_UID --no-create-home $CONTAINER_USERNAME
-
-# Start SSH Server
-service ssh start
-
-# Execute process
-exec gosu $CONTAINER_USERNAME "$@"
+# Execute process as root
+exec gosu vscode "$@"
