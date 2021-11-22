@@ -1,27 +1,22 @@
-# ---
-# Arguments
-# ---
-
-# Files to be copied in build phase of the container
-ifndef DOCKER_TAG
-DOCKER_TAG=latest
-endif
-
-ifndef DOCKER_PARENT_IMAGE
-DOCKER_PARENT_IMAGE="python:3.9-slim"
-endif
+SHELL:=/bin/bash
 
 # ---
-# Global Variables
+# Variables
 # ---
+# include .env
+# export $(shell sed 's/=.*//' .env)
+
 PROJECT_PATH := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-
 GIT_REMOTE=$(shell basename $(shell git remote get-url origin))
 PROJECT_NAME=$(shell echo $(GIT_REMOTE:.git=))
+CURRENT_VERSION=$(shell git tag -l --sort=-creatordate | head -n 1 | cut -d "v" -f2-)
 
-DOCKER_IMAGE_NAME = hsteinshiromoto/${PROJECT_NAME}
+DOCKER_IMAGE_NAME=hsteinshiromoto/${PROJECT_NAME}
 
 BUILD_DATE = $(shell date +%Y%m%d-%H:%M:%S)
+
+BASE_IMAGE_TAG=$(shell git ls-files -s Dockerfile.base | awk '{print $$2}' | cut -c1-16)
+APP_IMAGE_TAG=$(shell git ls-files -s Dockerfile | awk '{print $$2}' | cut -c1-16)
 
 # ---
 # Commands
@@ -32,13 +27,31 @@ test:
 
 	@echo "DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG}"
 
-## Build container locally
-build:
-	$(eval DOCKER_IMAGE_TAG=${DOCKER_IMAGE_NAME}:${DOCKER_TAG})
+## Build Docker base image
+base_image:
+	$(eval DOCKER_IMAGE_TAG=${DOCKER_IMAGE_NAME}.base:${BASE_IMAGE_TAG})
 
 	@echo "Building docker image ${DOCKER_IMAGE_TAG}"
-	docker build --build-arg BUILD_DATE=${BUILD_DATE} -t ${DOCKER_IMAGE_TAG} .
+	docker build --build-arg BUILD_DATE=${BUILD_DATE} \
+				-f Dockerfile.base \
+				-t ${DOCKER_IMAGE_TAG} .
 	@echo "Done"
+
+## Build Docker app image
+app_image:
+	$(eval DOCKER_IMAGE_TAG=${DOCKER_IMAGE_NAME}:${APP_IMAGE_TAG})
+	$(eval DOCKER_PARENT_IMAGE=${DOCKER_IMAGE_NAME}.base:${BASE_IMAGE_TAG})
+
+	@echo "Building docker image ${DOCKER_IMAGE_TAG}"
+	docker build --build-arg BUILD_DATE=${BUILD_DATE} \
+				--build-arg DOCKER_PARENT_IMAGE=${DOCKER_PARENT_IMAGE} \
+				--build-arg PROJECT_NAME=${PROJECT_NAME} \
+				-t ${DOCKER_IMAGE_TAG} .
+	@echo "Done"
+
+
+## Build Docker image
+image: base_image app_image
 
 ## Build container to docker hub
 push:
