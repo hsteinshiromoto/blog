@@ -31,6 +31,13 @@ jobs:
         run: | 
           echo "::set-output name=version::$(git ls-files -s Dockerfile | awk '{print $2}' | cut -c1-16)"
 
+      - name: Login to Dockerhub
+        # if: ${{ steps.image_exists.outputs.image_exists == 1 }}
+        uses: docker/login-action@v1
+        with: 
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Check if image exists
         id: image_exists
         run: |
@@ -40,13 +47,6 @@ jobs:
       - name: Build docker image if it is not on registry
         if: ${{ steps.image_exists.outputs.image_exists == 1 }}
         run: make image
-
-      - name: Login to Dockerhub
-        if: ${{ steps.image_exists.outputs.image_exists == 1 }}
-        uses: docker/login-action@v1
-        with: 
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Push image to Docker hub Registry
         if: ${{ steps.image_exists.outputs.image_exists == 1 }}
