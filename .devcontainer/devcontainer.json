@@ -1,5 +1,5 @@
 {
-	"image": "hsteinshiromoto/docker.datascience:latest",
+	"image": "hsteinshiromoto/blog:latest",
 
 	// Sets the run context to one level up instead of the .devcontainer folder.
 	"context": "..",
@@ -35,14 +35,21 @@
 		"sourcery.sourcery",
 		"cssho.vscode-svgviewer",
 		"hbenl.vscode-test-explorer",
-		"redhat.vscode-yaml"
+		"redhat.vscode-yaml",
+		"github.copilot",
+		"ms-python.python",
+		"littlefoxteam.vscode-python-test-adapter",
+		"njpwerner.autodocstring",
+		"mgesbert.python-path",
+		"njqdev.vscode-python-typehint",
+		"ms-python.vscode-pylance",
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [8888],
 
 	// Uncomment the next line to run commands after the container is created - for example installing curl.
-	"postCreateCommand": "cd /usr/local/ && sudo chmod 777 /usr/local/poetry.lock && sudo chmod 777 /usr/local/pyproject.toml && poetry add xkcd",
+	// "postCreateCommand": "cd /usr/local/ && sudo chmod 777 /usr/local/poetry.lock && sudo chmod 777 /usr/local/pyproject.toml && poetry add xkcd",
 
 	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
 	// "runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" ],
@@ -51,5 +58,5 @@
 	// "mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],
 
 	// Uncomment to connect as a non-root user if you've added one. See https://aka.ms/vscode-remote/containers/non-root.
-	// "remoteUser": "docker_user"
+	"remoteUser": "vscode"
 }

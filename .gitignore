@@ -10,7 +10,6 @@
 ## Files ##
 
 *.csv
-*.png
 
 ### JupyterNotebooks ###
 # gitignore template for Jupyter Notebooks
