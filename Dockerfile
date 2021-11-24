@@ -51,7 +51,7 @@ RUN poetry config virtualenvs.create false \
     && cd /usr/local/ \
     && poetry install --no-interaction --no-ansi
 
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+# ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 EXPOSE 8888
 CMD ["jupyter", "lab", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root"]
