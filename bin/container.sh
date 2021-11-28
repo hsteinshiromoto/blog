@@ -41,11 +41,11 @@ make_variables() {
     source .env
     set +a
 
-    PROJECT_ROOT=$(pwd)
+    PROJECT_ROOT=$(git rev-parse --show-toplevel)
     DOCKER_USER=vscode
 
     DOCKER_IMAGE=hsteinshiromoto/blog
-    DOCKER_TAG=$(git ls-files -s ../Dockerfile | awk '{print $2}' | cut -c1-16)
+    DOCKER_TAG=$(git ls-files -s ${PROJECT_ROOT}/Dockerfile | awk '{print $2}' | cut -c1-16)
     DOCKER_IMAGE_TAG=${DOCKER_IMAGE}:${DOCKER_TAG}
 
     RED="\033[1;31m"
