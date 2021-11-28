@@ -75,16 +75,17 @@ run_container() {
 
     sleep 5
 
-    JUPYTER_PORT=$(docker ps -f "ancestor=${DOCKER_IMAGE_TAG}" | grep -o "0.0.0.0:[0-9]*->8888" | cut -d ":" -f 2 | head -n 1)
+    JUPYTER_PORT_MAP=$(docker ps -f "ancestor=${DOCKER_IMAGE_TAG}" | grep -o "0.0.0.0:[0-9]*->8888" | cut -d ":" -f 2 | head -n 1)
+    JUPYTER_PORT=$(echo ${JUPYTER_PORT_MAP} | cut -d "-" -f 1)
 
-    echo -e "Port mapping: ${JUPYTER_PORT}"
+    echo -e "Port mapping: ${JUPYTER_PORT_MAP}"
 
     JUPYTER_TOKEN=$(docker exec -i ${CONTAINER_ID} bash -c "jupyter lab list" | tac | grep -o "token=[a-z0-9]*" | sed -n 1p | cut -d "=" -f 2)
     echo -e "Jupyter token: ${GREEN}${JUPYTER_TOKEN}${NC}"
 
     # JUPYTER_ADDRESS=$(docker ps | grep ${DOCKER_IMAGE_TAG} | grep -o "0.0.0.0:[0-9]*")
     JUPYTER_ADDRESS="127.0.0.1"
-    echo -e "Jupyter Address: ${BLUE}http://${JUPYTER_ADDRESS}/?token=${JUPYTER_TOKEN}${NC}"
+    echo -e "Jupyter Address: ${BLUE}http://${JUPYTER_ADDRESS}:${JUPYTER_PORT}/?token=${JUPYTER_TOKEN}${NC}"
 }
 
 enter_container() {
