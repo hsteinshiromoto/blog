@@ -20,8 +20,8 @@ ENV LANG=C.UTF-8 \
 ENV TZ Australia/Sydney
 ENV JUPYTER_ENABLE_LAB=yes
 ENV SHELL /bin/bash
-ENV HOME /home/$USERNAME
 ENV PROJECT_NAME=$PROJECT_NAME
+ENV HOME /home/$PROJECT_NAME
 
 # Set container time zone
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
