@@ -64,7 +64,7 @@ run_container() {
     if [[ -z "${CONTAINER_ID}" ]]; then
         echo "Creating Container from image ${DOCKER_IMAGE_TAG} ..."
 
-        docker run -d -P -v $(pwd):/home/${DOCKER_USER} -e uid=$UID -e -gid=$GID -t ${DOCKER_IMAGE_TAG} $1 >/dev/null >&1
+        docker run -d -P -v ${PROJECT_ROOT}:/home/blog -t ${DOCKER_IMAGE_TAG} $1 >/dev/null >&1
 
         sleep 2
         get_container_id
