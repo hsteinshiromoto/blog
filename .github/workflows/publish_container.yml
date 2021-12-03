@@ -61,7 +61,7 @@ jobs:
         run: make image
 
       - name: Push image to Docker hub Registry
-        if: ${{ steps.image_exists.outputs.image_exists == 1 }}
+        if: ${{ (steps.image_exists.outputs.image_exists == 1) || (steps.pyproject.outputs.pyproject) }}
         run: |
           IMAGE_ID=${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME
 
@@ -85,6 +85,7 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Push image to Github Registry
+        if: ${{ (steps.image_exists.outputs.image_exists == 1) || (steps.pyproject.outputs.pyproject) }}
         run: |
           IMAGE_ID=ghcr.io/${{ github.repository }}/$IMAGE_NAME
 
