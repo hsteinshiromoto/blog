@@ -44,8 +44,16 @@ jobs:
           response=$(docker manifest inspect ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:${{ steps.docker_version.outputs.version }} > /dev/null ; echo $?)
           echo ::set-output name=image_exists::$(echo ${response})
 
+      - name: Check if pyproject has changed
+        id: pyproject
+        run: |
+          previous_hash=$(git log -n 2 --pretty=format:%H --  pyproject.toml | sed -n '2 p' | cut -c1-16)
+          current_hash=$(git ls-files -s pyproject.toml | awk '{print $2}' | cut -c1-16)
+          if [ "${previous_hash}" = "${current_hash}" ]; then
+            echo ::set-output name=pyproject::1
+
       - name: Build docker image if it is not on registry
-        if: ${{ steps.image_exists.outputs.image_exists == 1 }}
+        if: ${{ (steps.image_exists.outputs.image_exists == 1) || (steps.pyproject.outputs.pyproject) }}
         run: make image
 
       - name: Push image to Docker hub Registry
