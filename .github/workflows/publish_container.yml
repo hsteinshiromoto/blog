@@ -50,7 +50,11 @@ jobs:
           previous_hash=$(git log -n 2 --pretty=format:%H --  pyproject.toml | sed -n '2 p' | cut -c1-16)
           current_hash=$(git ls-files -s pyproject.toml | awk '{print $2}' | cut -c1-16)
           if [ "${previous_hash}" = "${current_hash}" ]; then
-            echo ::set-output name=pyproject::1
+            response=1
+          else
+            response=0
+          fi
+          echo ::set-output name=pyproject::$(echo ${response})
 
       - name: Build docker image if it is not on registry
         if: ${{ (steps.image_exists.outputs.image_exists == 1) || (steps.pyproject.outputs.pyproject) }}
