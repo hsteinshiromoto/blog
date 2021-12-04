@@ -56,12 +56,24 @@ jobs:
           fi
           echo ::set-output name=pyproject::$(echo ${response})
 
+      - name: Check if Debian requirements has changed
+        id: debian_requirements
+        run: |
+          previous_hash=$(git log -n 2 --pretty=format:%H --  debian-requirements.txt | sed -n '2 p' | cut -c1-16)
+          current_hash=$(git ls-files -s debian-requirements.txt | awk '{print $2}' | cut -c1-16)
+          if [ "${previous_hash}" = "${current_hash}" ]; then
+            response=1
+          else
+            response=0
+          fi
+          echo ::set-output name=debian_requirements::$(echo ${response})
+
       - name: Build docker image if it is not on registry
-        if: ${{ (steps.image_exists.outputs.image_exists == 1) || (steps.pyproject.outputs.pyproject) }}
+        if: ${{ (steps.image_exists.outputs.image_exists == 1) || (steps.pyproject.outputs.pyproject) || (steps.debian_requirements.outputs.debian_requirements) }}
         run: make image
 
       - name: Push image to Docker hub Registry
-        if: ${{ (steps.image_exists.outputs.image_exists == 1) || (steps.pyproject.outputs.pyproject) }}
+        if: ${{ (steps.image_exists.outputs.image_exists == 1) || (steps.pyproject.outputs.pyproject) || (steps.debian_requirements.outputs.debian_requirements) }}
         run: |
           IMAGE_ID=${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME
 
@@ -85,7 +97,7 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Push image to Github Registry
-        if: ${{ (steps.image_exists.outputs.image_exists == 1) || (steps.pyproject.outputs.pyproject) }}
+        if: ${{ (steps.image_exists.outputs.image_exists == 1) || (steps.pyproject.outputs.pyproject) || (steps.debian_requirements.outputs.debian_requirements) }}
         run: |
           IMAGE_ID=ghcr.io/${{ github.repository }}/$IMAGE_NAME
 
