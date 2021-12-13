@@ -6,7 +6,9 @@ git
 gosu
 gnupg2
 graphviz
+nodejs
 make
+npm
 pandoc
 sudo
 vim
