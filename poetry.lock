@@ -1613,6 +1613,20 @@ websocket-client = "*"
 test = ["coverage", "pytest (>=6.0)", "pytest-cov", "pytest-mock", "requests", "pytest-tornasync", "pytest-console-scripts", "ipykernel"]
 
 [[package]]
+name = "jupyter-server-mathjax"
+version = "0.2.3"
+description = "MathJax resources as a Jupyter Server Extension."
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+jupyter-server = ">=1.1,<2.0"
+
+[package.extras]
+test = ["jupyter-server", "pytest"]
+
+[[package]]
 name = "jupyterlab"
 version = "3.1.9"
 description = "JupyterLab computational environment"
@@ -1633,6 +1647,25 @@ tornado = ">=6.1.0"
 [package.extras]
 test = ["coverage", "pytest (>=6.0)", "pytest-cov", "pytest-console-scripts", "pytest-check-links (>=0.5)", "jupyterlab-server[test] (>=2.2,<3.0)", "requests", "requests-cache", "virtualenv", "check-manifest"]
 ui-tests = ["build"]
+
+[[package]]
+name = "jupyterlab-git"
+version = "0.34.0"
+description = "A JupyterLab extension for version control using git"
+category = "dev"
+optional = false
+python-versions = "<4,>=3.6"
+
+[package.dependencies]
+jupyter-server = "*"
+nbdime = ">=3.1,<4.0"
+nbformat = "*"
+packaging = "*"
+pexpect = "*"
+
+[package.extras]
+dev = ["black", "coverage", "jupyter-packaging (>=0.7.9,<0.8.0)", "jupyterlab (>=3.0,<4.0)", "pre-commit", "pytest", "pytest-asyncio", "pytest-cov", "pytest-tornasync"]
+tests = ["black", "coverage", "jupyter-packaging (>=0.7.9,<0.8.0)", "jupyterlab (>=3.0,<4.0)", "pre-commit", "pytest", "pytest-asyncio", "pytest-cov", "pytest-tornasync", "hybridcontents"]
 
 [[package]]
 name = "jupyterlab-pygments"
@@ -2008,6 +2041,29 @@ docs = ["sphinx (>=1.5.1)", "sphinx-rtd-theme", "nbsphinx (>=0.2.12)", "ipython"
 serve = ["tornado (>=4.0)"]
 test = ["pytest", "pytest-cov", "pytest-dependency", "ipykernel", "ipywidgets (>=7)", "pyppeteer (==0.2.2)"]
 webpdf = ["pyppeteer (==0.2.2)"]
+
+[[package]]
+name = "nbdime"
+version = "3.1.1"
+description = "Diff and merge of Jupyter Notebooks"
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+colorama = "*"
+GitPython = "<2.1.4 || >2.1.4,<2.1.5 || >2.1.5,<2.1.6 || >2.1.6"
+jinja2 = ">=2.9"
+jupyter-server = "*"
+jupyter-server-mathjax = ">=0.2.2"
+nbformat = "*"
+pygments = "*"
+requests = "*"
+tornado = "*"
+
+[package.extras]
+docs = ["sphinx", "recommonmark", "sphinx-rtd-theme"]
+test = ["pytest (>=3.6)", "pytest-cov", "pytest-timeout", "pytest-tornado", "jupyter-server", "jsonschema", "mock", "notebook", "requests", "tabulate"]
 
 [[package]]
 name = "nbformat"
@@ -3910,7 +3966,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "3.9.*"
-content-hash = "d72bcf453797c340474aae7c5161c283b45fa930d8967650e8e7f067a9f56fec"
+content-hash = "da77c9d0f1e6e4611349f7b42e6c817ca6ddc9a01b0ab2c965721d134b2356a2"
 
 [metadata.files]
 alembic = [
@@ -4816,9 +4872,17 @@ jupyter-server = [
     {file = "jupyter_server-1.10.2-py3-none-any.whl", hash = "sha256:491c920013144a2d6f5286ab4038df6a081b32352c9c8b928ec8af17eb2a5e10"},
     {file = "jupyter_server-1.10.2.tar.gz", hash = "sha256:d3a3b68ebc6d7bfee1097f1712cf7709ee39c92379da2cc08724515bb85e72bf"},
 ]
+jupyter-server-mathjax = [
+    {file = "jupyter_server_mathjax-0.2.3-py3-none-any.whl", hash = "sha256:740de2ed0d370f1856faddfaf8c09a6d7435d09d3672f24826451467b268969d"},
+    {file = "jupyter_server_mathjax-0.2.3.tar.gz", hash = "sha256:564e8d1272019c6771208f577b5f9f2b3afb02b9e2bff3b34c042cef8ed84451"},
+]
 jupyterlab = [
     {file = "jupyterlab-3.1.9-py3-none-any.whl", hash = "sha256:370545a6a33eb50db3f60bdd5e46ca690b2a7fb09145a5df0fc00dd0a40d06d2"},
     {file = "jupyterlab-3.1.9.tar.gz", hash = "sha256:007e42f833e59fd36872d459e45be243d899edbd0e4a98d21388632e4e0d8af7"},
+]
+jupyterlab-git = [
+    {file = "jupyterlab_git-0.34.0-py3-none-any.whl", hash = "sha256:64a39f62d07b624b9e3fb4c2d5a03263812803d052164dadf22bee49ec272065"},
+    {file = "jupyterlab_git-0.34.0.tar.gz", hash = "sha256:3b9ee3a577834c0f021d41069be7b03068297ce0c2a73c76b17e8018eb3eb62f"},
 ]
 jupyterlab-pygments = [
     {file = "jupyterlab_pygments-0.1.2-py2.py3-none-any.whl", hash = "sha256:abfb880fd1561987efaefcb2d2ac75145d2a5d0139b1876d5be806e32f630008"},
@@ -5122,6 +5186,10 @@ nbclient = [
 nbconvert = [
     {file = "nbconvert-6.1.0-py3-none-any.whl", hash = "sha256:37cd92ff2ae6a268e62075ff8b16129e0be4939c4dfcee53dc77cc8a7e06c684"},
     {file = "nbconvert-6.1.0.tar.gz", hash = "sha256:d22a8ff202644d31db254d24d52c3a96c82156623fcd7c7f987bba2612303ec9"},
+]
+nbdime = [
+    {file = "nbdime-3.1.1-py2.py3-none-any.whl", hash = "sha256:ea4ddf919e3035800ef8bd5552b814522207cb154ca7512565e4539a54c74dbf"},
+    {file = "nbdime-3.1.1.tar.gz", hash = "sha256:67767320e971374f701a175aa59abd3a554723039d39fae908e72d16330d648b"},
 ]
 nbformat = [
     {file = "nbformat-5.1.3-py3-none-any.whl", hash = "sha256:eb8447edd7127d043361bc17f2f5a807626bc8e878c7709a1c647abda28a9171"},
@@ -5830,6 +5898,13 @@ ray = [
 ]
 rectangle-packer = [
     {file = "rectangle-packer-2.0.1.tar.gz", hash = "sha256:dd8e70184d2af8a195d568e0c2c3cc197f0c94c2a477475411e5ea978c67b27d"},
+    {file = "rectangle_packer-2.0.1-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:cd7364f7e12dd031f18534e9f050d5515c9f837fd6c78e3b679f935714302027"},
+    {file = "rectangle_packer-2.0.1-cp310-cp310-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:8da87310463144cf7a48ca2e5a286aaa78847daf7c506aa2640212b0801167d5"},
+    {file = "rectangle_packer-2.0.1-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:06c6f1d55f12c38e11659125d86e23430e4296ccff3584b3084e4d89197f4b62"},
+    {file = "rectangle_packer-2.0.1-cp310-cp310-musllinux_1_1_i686.whl", hash = "sha256:9eede5c4c596a3185678c06cd7d2135d71838d2f7751f3059c0f0622472599a6"},
+    {file = "rectangle_packer-2.0.1-cp310-cp310-musllinux_1_1_x86_64.whl", hash = "sha256:8a7de73dad5e2c77932f5fc38f892797388e6468c26cbbf4c9d1b426954bd5df"},
+    {file = "rectangle_packer-2.0.1-cp310-cp310-win32.whl", hash = "sha256:fe71a87503424cb549ec0f80563dc9139a62531295f500b53c7e1466ac27b65a"},
+    {file = "rectangle_packer-2.0.1-cp310-cp310-win_amd64.whl", hash = "sha256:4dc74c75a3f9c238b004f7827524b23354b4056166ab43e2773d8ba5d51f48d7"},
     {file = "rectangle_packer-2.0.1-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:2fdbb32ac858c6b78a4fea6883d532751fe868fd2d368d28540acfca664b1c46"},
     {file = "rectangle_packer-2.0.1-cp36-cp36m-manylinux1_i686.whl", hash = "sha256:d112c440b537bd7dc422d309fb89f1fda7538368dc01332173ff3f9462cbb0fc"},
     {file = "rectangle_packer-2.0.1-cp36-cp36m-manylinux1_x86_64.whl", hash = "sha256:d1cbefb39f5dd48105930d2ed1565cfbe59cd6a58301ec9c9046f0edc25b6c4d"},
