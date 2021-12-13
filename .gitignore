@@ -6,10 +6,13 @@
 
 .local/*
 .jupyter/*
-
+.npm/*
+bin/.jupyter/*
+bin/.local/*
 ## Files ##
 
 *.csv
+.bash_history
 
 ### JupyterNotebooks ###
 # gitignore template for Jupyter Notebooks
