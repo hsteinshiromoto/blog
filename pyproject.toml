@@ -13,7 +13,7 @@ bokeh = "^2.3.3"
 catboost = "^0.26"
 category-encoders = "^2.2.2"
 click = "^8.0.1"
-dask = {extras = ["complete"], version = "^2021.7.0"}
+dask = {extras = ["complete"], version = "^2021.10.0"}
 dask-ml = {extras = ["complete"], version = "^1.9.0"}
 Deprecated = "^1.2.13"
 hyperopt = "^0.2.5"
