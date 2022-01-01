@@ -17,7 +17,6 @@
 		"ms-toolsai.jupyter",
 		"ms-python.python",
 		"aaron-bond.better-comments",
-		"coenraads.bracket-pair-colorizer",
 		"mikestead.dotenv",
 		"shan.code-settings-sync",
 		"wayou.vscode-todo-highlight",
@@ -43,6 +42,7 @@
 		"mgesbert.python-path",
 		"njqdev.vscode-python-typehint",
 		"ms-python.vscode-pylance",
+		"coenraads.bracket-pair-colorizer-2",
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
