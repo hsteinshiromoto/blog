@@ -30,6 +30,12 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 LABEL org.label-schema.build-date=$BUILD_DATE \
         maintainer="Humberto STEIN SHIROMOTO <h.stein.shiromoto@gmail.com>"
 
+
+# Create the "home" folder
+RUN mkdir -p $HOME
+WORKDIR $HOME
+
+
 # ---
 # Install pyenv
 #
@@ -55,9 +61,6 @@ COPY pyproject.toml /usr/local/pyproject.toml
 
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Create the "home" folder
-RUN mkdir -p $HOME
-WORKDIR $HOME
 
 # Get poetry
 RUN curl -sSL https://install.python-poetry.org | python3 -
@@ -67,8 +70,6 @@ ENV PATH="${PATH}:$HOME/.local/bin"
 RUN poetry config virtualenvs.create false \
     && cd /usr/local/ \
     && poetry install --no-interaction --no-ansi
-
-RUN poetry update --no-interaction --no-ansi
 
 ENV PATH="${PATH}:$HOME/.local/bin"
 # Need for Pytest
