@@ -67,9 +67,11 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="${PATH}:$HOME/.poetry/bin"
 ENV PATH="${PATH}:$HOME/.local/bin"
 
-RUN poetry config virtualenvs.create false \
-    && cd /usr/local/ \
-    && poetry install --no-interaction --no-ansi
+
+RUN poetry config virtualenvs.create false
+# RUN poetry config virtualenvs.create false \
+#     && cd /usr/local/ \
+#     && poetry install --no-interaction --no-ansi
 
 ENV PATH="${PATH}:$HOME/.local/bin"
 # Need for Pytest
