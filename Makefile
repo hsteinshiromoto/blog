@@ -63,6 +63,13 @@ push:
 	docker push ${DOCKER_IMAGE_TAG}
 	@echo "Done"
 
+
+pull:
+	$(eval DOCKER_IMAGE_TAG='ghcr.io/hsteinshiromoto/blog/blog:hyperopt')
+	docker pull ${DOCKER_IMAGE_TAG}
+	docker tag ${DOCKER_IMAGE_TAG} hsteinshiromoto/blog:latest
+
+
 #################################################################################
 # Self Documenting Commands                                                     #
 #################################################################################
