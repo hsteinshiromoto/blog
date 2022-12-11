@@ -30,6 +30,14 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 # ---
 COPY debian-requirements.txt /usr/local/debian-requirements.txt
 
+# Install pyenv dependencies
+RUN apt-get update && \
+    apt-get install -y build-essential libssl-dev zlib1g-dev \
+    libbz2-dev libreadline-dev libsqlite3-dev curl llvm \
+    libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+    apt-get clean
+
+# Install other
 RUN apt-get update && \
 	DEBIAN_PACKAGES=$(egrep -v "^\s*(#|$)" /usr/local/debian-requirements.txt) && \
     apt-get install -y $DEBIAN_PACKAGES && \

@@ -1,8 +1,8 @@
 # Misc.
 biber
-build-essential
 curl
 git
+git-flow
 gosu
 gnupg2
 graphviz
