@@ -11,7 +11,7 @@ ARG BUILD_DATE
 ARG DEBIAN_FRONTEND=noninteractive
 
 ARG PROJECT_NAME
-
+ARG PYTHON_VERSION=3.11
 # ---
 # Enviroment variables
 # ---
@@ -30,6 +30,22 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
         maintainer="Humberto STEIN SHIROMOTO <h.stein.shiromoto@gmail.com>"
 
 # ---
+# Install pyenv
+#
+# References:
+#   [1] https://stackoverflow.com/questions/65768775/how-do-i-integrate-pyenv-poetry-and-docker
+# ---
+
+RUN git clone --depth=1 https://github.com/pyenv/pyenv.git $HOME/.pyenv
+ENV PYENV_ROOT="${HOME}/.pyenv"
+ENV PATH="${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:${PATH}"
+
+# ---
+# Install Python and set the correct version
+# ---
+RUN pyenv install $PYTHON_VERSION && pyenv global $PYTHON_VERSION
+
+# ---
 # Copy Container Setup Scripts
 # ---
 COPY bin/entrypoint.sh /usr/local/bin/entrypoint.sh
@@ -43,7 +59,7 @@ RUN mkdir -p $HOME
 WORKDIR $HOME
 
 # Get poetry
-RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="${PATH}:$HOME/.poetry/bin"
 ENV PATH="${PATH}:$HOME/.local/bin"
 
@@ -51,7 +67,10 @@ RUN poetry config virtualenvs.create false \
     && cd /usr/local/ \
     && poetry install --no-interaction --no-ansi
 
-# ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
+ENV PATH="${PATH}:$HOME/.local/bin"
+# Need for Pytest
+ENV PATH="${PATH}:${PYENV_ROOT}/versions/$PYTHON_VERSION/bin"
 
 EXPOSE 8888
 CMD ["jupyter", "lab", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root"]
