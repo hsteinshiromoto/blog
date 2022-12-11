@@ -5,6 +5,7 @@ SHELL:=/bin/bash
 # ---
 # include .env
 # export $(shell sed 's/=.*//' .env)
+PYTHON_VERSION='3.11'
 
 PROJECT_PATH := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 GIT_REMOTE=$(shell basename $(shell git remote get-url origin))
@@ -45,6 +46,7 @@ app_image:
 	@echo "Building docker image ${DOCKER_IMAGE_TAG}"
 	docker build --build-arg BUILD_DATE=${BUILD_DATE} \
 				--build-arg DOCKER_PARENT_IMAGE=${DOCKER_PARENT_IMAGE} \
+				--build-arg PYTHON_VERSION=${PYTHON_VERSION} \
 				--build-arg PROJECT_NAME=${PROJECT_NAME} \
 				-t ${DOCKER_IMAGE_TAG} .
 	@echo "Done"
